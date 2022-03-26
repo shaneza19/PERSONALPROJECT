@@ -1,10 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-  const model = sequelize.define(
+  const RealEstate = sequelize.define(
     "RealEstate",
     {
       type: {
         //ขาย / เช่า
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING,
+        validate: {
+          isIn: [['ขาย', 'เช่า']]
+        }
       },
       product_title: {
         type: DataTypes.STRING(100),
@@ -17,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         //ขายอยู่ / ไม่ว่าง
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING,
+        validate: {
+          isIn: [['ขายอยู่', 'ไม่ว่าง']]
+        }
       },
       address: {
         type: DataTypes.STRING(255),
@@ -28,7 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       category: {
         /* 1 = house(บ้าน), 2 = land(ที่ดิน), 3 = condo(คอนโด), 4 = shophouse(ตึกแถว), 5 = townhouse(ทาวน์เฮ้าส์), 
          6 = apartment(อพาร์ทเม้นท์), 7 = commercialbuilding(อาคารพานิชย์), 8 = other(อื่นๆ) */
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING,
+        validate: {
+          isIn: [['บ้าน', 'ที่ดิน', 'คอนโด', 'ตึกแถว', 'ทาวน์เฮ้าส์', 'อพาร์ทเม้นท์', 'อาคารพานิชย์', 'อื่นๆ']]
+        }
       },
       image_url1: {
         type: DataTypes.STRING,
@@ -52,9 +61,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  model.associate = (models) => {
-    model.belongsTo(models.User, { foreignKey: "user_id" });
+  RealEstate.associate = (models) => {
+    RealEstate.belongsTo(models.User, { foreignKey: "user_id" });
   };
 
-  return model;
+  return RealEstate;
 };

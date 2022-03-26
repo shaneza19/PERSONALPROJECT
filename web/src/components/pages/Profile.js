@@ -141,11 +141,7 @@ export default function Profile(props) {
             <br />
             <ProfileImage />
             <br />
-            <Collapse defaultActiveKey={["0"]}>
-              <Panel showArrow={false} header="แก้ไขรูปโปรไฟล์" key="1">
-                <ProfilePicForm />
-              </Panel>
-            </Collapse>
+            <ProfilePicForm />
             <Link to={"/view_history"}>
               <br />
               <button className={buttonStyle.loginButton}>
@@ -162,4 +158,3 @@ export default function Profile(props) {
     </>
   );
 }
-

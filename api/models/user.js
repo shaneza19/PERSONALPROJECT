@@ -1,29 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
-  const model = sequelize.define(
+  const User = sequelize.define(
     "User",
     {
       username: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
+        unique: true,
       },
       password: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
       },
       first_name: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
       },
       last_name: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
       },
       tel: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       email: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
       },
       line_id: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
       },
-      profile_pic_url: {
+      profile_img: {
         type: DataTypes.STRING,
       },
     },
@@ -33,9 +34,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  model.associate = (models) => {
-    model.hasMany(models.RealEstate, { foreignKey: "user_id" });
+  User.associate = (models) => {
+    User.hasMany(models.RealEstate, { foreignKey: "user_id" });
   };
 
-  return model;
+  return User;
 };
