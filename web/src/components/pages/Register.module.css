@@ -1,0 +1,67 @@
+.button {
+  background-color: #ffdd6d;
+  color: black;
+  font-size: 1rem;
+  padding: 5px 40px;
+  border-radius: 5px;
+  margin: 10px 1px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #F8973E;
+}
+
+h1 {
+  color: #000000;
+  font-family: "Great Vibes", cursive;
+  font-size: 1.5rem; 
+  line-height: 72px;
+  font-weight: normal;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  text-align: center;
+  text-shadow: 0 1px 1px #fff;
+}
+
+.container {
+  width: 1000px;
+  height: 700px;
+  /*border-style: dashed; /* test div box location*/
+  margin: auto; 
+  background-color: #fffccc;
+  padding-top: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: auto; 
+  border-radius: 5px;
+  border: 5px groove orange;
+}
+
+p {
+  color: #000000;
+  font-size: 1rem;
+  font-family: "Libre Baskerville", serif;
+  line-height: 35px;
+  text-align: center;
+  text-shadow: 0 1px 1px #fff;
+  padding-top: 20px;
+}
+
+hr.style {
+  overflow: visible; /* For IE */
+  padding: 0;
+  border: none;
+  border-top: medium double #333;
+  color: #333;
+  text-align: center;
+}
+hr.style:after {
+  content: "§";
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1.5em;
+  padding: 0 0.25em;
+  background: #fffccc;
+}

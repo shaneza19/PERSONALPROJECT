@@ -1,0 +1,99 @@
+.header {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10%;
+  /*background-color: #ff7a00;*/
+  background: rgb(158, 203, 97);
+  background: linear-gradient(
+    90deg,
+    rgba(158, 203, 97, 1) 11%,
+    rgb(250, 222, 163) 51%,
+    rgba(236, 160, 17, 1) 100%
+  );
+}
+
+.logoImage {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.logo {
+  color: #000000;
+  font-family: "Arial";
+  font-size: 2rem;
+  line-height: 72px;
+  font-weight: normal;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  text-align: center;
+  text-shadow: 0 1px 1px #fff;
+}
+
+.header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: baseline;
+}
+
+.header li {
+  margin-left: 6rem;
+}
+
+.header a {
+  color: #000000;
+  font-size: 1.7rem;
+  font-family: "Libre Baskerville", serif;
+  line-height: 25px;
+  text-align: center;
+  text-shadow: 0 1px 1px rgb(77, 110, 67);
+}
+
+/*
+.header a:hover,
+.header a:active,
+.header a.active {
+  color: white;
+}
+*/
+
+.header a {
+  background-image: linear-gradient(
+    to right,
+    #54b3d6,
+    #54b3d6 50%,
+    #000 50%
+  );
+  background-size: 200% 100%;
+  background-position: -100%;
+  display: inline-block;
+  padding: 5px 0;
+  position: relative;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.header a:before {
+  content: '';
+  background: #54b3d6;
+  display: block;
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.header a:hover {
+ background-position: 0;
+}
+
+.header a:hover::before {
+  width:100%;
+}
