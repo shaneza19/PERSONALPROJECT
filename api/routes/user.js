@@ -7,8 +7,11 @@ const passport = require('passport');
 const authentication = passport.authenticate("jwt", {session: false});
 const upload = require('../middlewares/upload');
 //GET
-router.get('/', authentication, userController.getAllUsers);
+router.get('/me', authentication, userController.getMe);
 router.get('/:id', authentication, userController.getUserById);
+
+//PUT
+router.put('/:id', authentication, userController.updateUser);
 
 //POST
 router.post('/register', authController.register);
@@ -22,10 +25,6 @@ router.patch(
     cloudinaryController.updateProfileImg
   );
 
-//PUT
-router.put('/:id', authentication, userController.updateUser);
 
-//DELETE
-router.delete('/:id', authentication, userController.deleteUser);
 
 module.exports = router;

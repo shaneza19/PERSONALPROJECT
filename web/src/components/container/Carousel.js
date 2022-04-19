@@ -8,11 +8,11 @@ export default function Carousel(props) {
   
   return (
     <AliceCarousel mouseTracking={true} disableButtonsControls={true}>
-      <img src={props.image_url1} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found" />
-      <img src={props.image_url2} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found"/>
-      <img src={props.image_url3} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found"/>
-      <img src={props.image_url4} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found"/>
-      <img src={props.image_url5} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found"/>
+      <img src={props.image_1} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found" />
+      <img src={props.image_2} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found"/>
+      <img src={props.image_3} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found"/>
+      <img src={props.image_4} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found"/>
+      <img src={props.image_5} onDragStart={handleOnDragStart} className={classes.CarouselImage} alt="not found"/>
     </AliceCarousel>
   )
 }

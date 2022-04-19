@@ -1,41 +1,70 @@
+/*SideBar*/
+.SideBar {
+  position: fixed;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  z-index: 1;
+}
+
+.SideBarIcon {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  width: 2.25em;
+  height: 2.25em;
+  margin-right: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.SideBarContent {
+  user-select: none;
+  margin: auto;
+}
+
+.SideBarContent h1 {
+  color: white;
+  font-size: 1.5rem; 
+  line-height: 72px;
+  font-weight: normal;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  text-align: center;
+  text-shadow: 0 1px 1px rgb(255, 56, 56);
+}
+
+/* Collapsed Sidebar CSS */
+.SideBarCollapsed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 52px;
+  z-index: 1;
+}
+
+.SideBarCollapsed .SideBarIcon {
+  margin-right: 0;
+}
+
+.SideBarCollapsed .SideBarContent {
+  display: none;
+}
+/*SideBar Ends*/
+
 ul.noBullets {
     list-style-type: none; 
     padding: 0; 
     margin: 0;
-  }
-
-  h1 {
-    color: #000000;
-    font-family: "Great Vibes", cursive;
-    font-size: 1.5rem; 
-    line-height: 72px;
-    font-weight: normal;
-    margin-bottom: 0px;
-    margin-top: 0px;
-    text-align: center;
-    text-shadow: 0 1px 1px #fff;
-  }
-  
-  p {
-    color: #000000;
-    font-size: 1.2rem;
-    font-family: "Libre Baskerville", serif;
-    line-height: 25px;
-    text-align: center;
-    text-shadow: 0 1px 1px #fff;
-  }
-
-  .container {
-    width: 700px;
-    height: 2000px;
-    /*border-style: dashed; /* test div box location*/
-    margin: auto;
-    padding-top: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 5px;
-    border: 5px groove orange;
-    background: #CCF592;
   }
 
   .priceContainer {
@@ -43,7 +72,7 @@ ul.noBullets {
     height: 900px;
     /*border-style: dashed; /* test div box location*/
     margin: auto; 
-    background-color: #fffccc;
+    background-color: rgba(192, 192, 192, 0.2);
     padding-top: 30px;
     padding-left: 10px;
     padding-right: 10px;
@@ -51,20 +80,3 @@ ul.noBullets {
     overflow: auto;
   }
 
-  hr.style {
-    overflow: visible; /* For IE */
-    padding: 0;
-    border: none;
-    border-top: medium double #333;
-    color: #333;
-    text-align: center;
-  }
-  hr.style:after {
-    content: "§";
-    display: inline-block;
-    position: relative;
-    top: -0.7em;
-    font-size: 1.5em;
-    padding: 0 0.25em;
-    background: #CCF592;
-  }

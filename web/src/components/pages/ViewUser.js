@@ -3,6 +3,8 @@ import ViewUserContainer from "../container/ViewUser";
 import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import classes from "./ViewUser.module.css";
+import profileImg from '../../assets/images/profileImg.png';
+import axios from '../../config/axios';
 
 //a page for displaying Seller information
 export default function ViewUser() {
@@ -13,19 +15,17 @@ export default function ViewUser() {
   let { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/user/${id}`, { method: "GET" })
-      .then((res) => res.json())
-      .then(
-        (user) => {
-          setIsLoaded(true);
-          setItems(user);
-          console.log(user);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+    axios
+      .get(`/user/${id}`)
+      .then((res) => {
+        setIsLoaded(true);
+        setItems(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        setIsLoaded(true);
+        setError(error);
+      });
   }, []);
 
   if (error) {
@@ -46,7 +46,7 @@ export default function ViewUser() {
                   tel={items.tel}
                   email={items.email}
                   line_id={items.line_id}
-                  profile_pic_url={items.profile_pic_url}
+                  profile_img={items.profile_img || profileImg}
                   user_id={items.id}
                 />
               </div>

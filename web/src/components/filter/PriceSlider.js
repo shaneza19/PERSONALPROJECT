@@ -9,7 +9,7 @@ export default function PriceFilterSlider({ items, handleInput, price }) {
         <div className={classes.slidecontainer}>
         <input className={classes.slider} type="range" onInput={handleInput} min="0" max="1000000" />
         </div>
-        <h2>{price} บาทขึ้นไป</h2>
+        <h4>{price} บาทขึ้นไป</h4>
         <div>
           {items
             .filter((item) => {
@@ -18,7 +18,7 @@ export default function PriceFilterSlider({ items, handleInput, price }) {
             .map((item) => {
               return (
                 <Link to={`/view_item/${item.id}`}>
-                <p style={{color: "black"}} key={item.id}>
+                <p className={classes.text} key={item.id}>
                   {item.product_title} | &nbsp;
                   {item.price.toLocaleString(undefined, {
                     maximumFractionDigits: 2,

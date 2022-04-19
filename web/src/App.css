@@ -2,30 +2,6 @@
   text-align: center;
 }
 
-.Form {
-  border-radius: 5px;
-  box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.5);
-  background-color: #f8f8f8;
-  margin: 20px;
-  padding: 20px;
-}
-
-.Button {
-  font-size: 20px;
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px;
-}
-
-.Divider {
-  margin-top: 10px;
-  background-color: #d0d0d0;
-}
-
-.Title {
-  margin-top: 25px;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -6,7 +6,7 @@ ul.noBullets {
 
   h1 {
     color: #000000;
-    font-family: "Great Vibes", cursive;
+    font-family: "Libre Baskerville", serif;
     font-size: 1.5rem; 
     line-height: 72px;
     font-weight: normal;
@@ -27,7 +27,7 @@ ul.noBullets {
 
   .container {
     width: 1000px;
-    height: 1000px;
+    height: 700px;
     /*border-style: dashed; /* test div box location*/
     margin: auto; 
     padding-top: 30px;
@@ -36,7 +36,7 @@ ul.noBullets {
     overflow: auto; 
     border-radius: 5px;
     border: 5px groove orange;
-    background-color: #fffccc;
+    background-color: #fff;
   }
 
   hr.style {
@@ -54,5 +54,20 @@ ul.noBullets {
     top: -0.7em;
     font-size: 1.5em;
     padding: 0 0.25em;
-    background: #fffccc;
+    background: #fff;
   }
+
+  .button {
+    background-color: #fffccc;
+    color: black;
+    font-size: 1rem;
+    padding: 5px 40px;
+    border-radius: 5px;
+    margin: 10px 1px;
+    cursor: pointer;
+  }
+
+  .button:hover {
+    background-color: #fffccc80;
+  }
+

@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Col, Row, Form, Input, notification } from "antd";
-import axios from "../../config/Axios";
+import axios from "../../config/axios";
 import classes from "./EditItemForm.module.css";
-import localStorageService from "../../services/LocalStorageService"
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function EditItemForm() {
-  const string = localStorageService.getUser();
-  const localUser = JSON.parse(string);
+  const { user } = useContext(AuthContext);
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -19,7 +18,7 @@ export default function EditItemForm() {
       line_id: values.line_id,
     };
     axios
-      .put(`/user/${localUser.user_id}`, body)
+      .put(`/user/${user.id}`, body)
       .then((res) => {
         notification.success({
           message: `คุณได้แก้ไขเรียบร้อยแล้ว`,
@@ -163,7 +162,7 @@ export default function EditItemForm() {
             >
               <Input placeholder="(optional)" />
             </Form.Item>
-            <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
+            <Form.Item wrapperCol={{ span: 8, offset: 5 }}>
               <button className={classes.button} type="submit">
                 แก้ไข
               </button>

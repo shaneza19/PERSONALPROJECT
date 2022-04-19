@@ -6,7 +6,7 @@ ul.noBullets {
 
   h1 {
     color: #000000;
-    font-family: "Great Vibes", cursive;
+    font-family: "Libre Baskerville", serif;
     font-size: 1.5rem; 
     line-height: 72px;
     font-weight: normal;
@@ -30,7 +30,7 @@ ul.noBullets {
     height: 1000px;
     /*border-style: dashed; /* test div box location*/
     margin: auto; 
-    background-color: #fffccc;
+    background-color: #fff;
     padding-top: 30px;
     padding-left: 10px;
     padding-right: 10px;

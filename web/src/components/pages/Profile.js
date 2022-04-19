@@ -1,25 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Collapse, Button, Modal, notification } from "antd";
-import localStorageService from "../../services/LocalStorageService";
+import React, { useContext } from "react";
+import { Row, Col, Button, Modal, notification } from "antd";
 import { ProfileImage } from "../container/ProfileImage";
 import ProfilePicForm from "../form/ProfilePicForm";
 import classes from "./Profile.module.css";
-import buttonStyle from "./Button.module.css";
 import { Link } from "react-router-dom";
 import EditProfileForm from "../form/EditProfileForm";
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function Profile(props) {
-  const logout = () => {
-    localStorageService.removeToken();
-    props.setRole("guest");
-    localStorage.clear();
-  };
 
-  const string = localStorageService.getUser();
-  const localUser = JSON.parse(string);
-
-  //AntD's collapsible button
-  const { Panel } = Collapse;
+  const { user } = useContext(AuthContext);
 
   //AntD's modal edit button
   const [visible, setVisible] = React.useState(false);
@@ -33,10 +23,6 @@ export default function Profile(props) {
   const editHandler = async () => {
     try {
       return (
-        notification.success({
-          message: `แก้ไขสำเร็จแล้ว`,
-          placement: `bottomRight`,
-        }),
         setTimeout(() => {
           window.location.reload(false);
         }, 1500)
@@ -50,7 +36,7 @@ export default function Profile(props) {
   };
 
   const handleOk = () => {
-    editHandler(localUser.user_id);
+    editHandler('user_id');
     setModalText("กำลังดำเนินการแก้ไข");
     setConfirmLoading(true);
     setTimeout(() => {
@@ -63,23 +49,6 @@ export default function Profile(props) {
     console.log("Clicked cancel button");
     setVisible(false);
   };
-
-  //Fetch data for profile list
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState([]);
-  useEffect(() => {
-    fetch(`http://localhost:8000/user/${localUser.user_id}`, { method: "GET" })
-      .then((res) => res.json())
-      .then(
-        (user) => {
-          setUser(user);
-          console.log(user);
-        },
-        (error) => {
-          setError(error);
-        }
-      );
-  }, []);
 
   function ProfileList() {
     return (
@@ -133,6 +102,7 @@ export default function Profile(props) {
           <Col span={6} offset={2}>
             <br />
             {ProfileList()}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button type="primary" onClick={showModal}>
               แก้ไข
             </Button>
@@ -144,16 +114,13 @@ export default function Profile(props) {
             <ProfilePicForm />
             <Link to={"/view_history"}>
               <br />
-              <button className={buttonStyle.loginButton}>
+              <button className={classes.button}>
                 ดูรายการลงประกาศของฉัน
               </button>
             </Link>
           </Col>
         </Row>
         <br /> <br />
-        <button className={buttonStyle.loginButton} onClick={logout}>
-          ล็อกเอ้าท์ (Logout)
-        </button>
       </div>
     </>
   );

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         //ขาย / เช่า
         type: DataTypes.STRING,
         validate: {
-          isIn: [['ขาย', 'เช่า']]
+          isIn: [["ขาย", "เช่า"]],
         }
       },
       product_title: {
@@ -21,9 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       status: {
         //ขายอยู่ / ไม่ว่าง
         type: DataTypes.STRING,
+        defaultValue: "ขายอยู่",
         validate: {
-          isIn: [['ขายอยู่', 'ไม่ว่าง']]
-        }
+          isIn: [["ขายอยู่", "ไม่ว่าง"]],
+        },
       },
       address: {
         type: DataTypes.STRING(255),
@@ -36,28 +37,54 @@ module.exports = (sequelize, DataTypes) => {
          6 = apartment(อพาร์ทเม้นท์), 7 = commercialbuilding(อาคารพานิชย์), 8 = other(อื่นๆ) */
         type: DataTypes.STRING,
         validate: {
-          isIn: [['บ้าน', 'ที่ดิน', 'คอนโด', 'ตึกแถว', 'ทาวน์เฮ้าส์', 'อพาร์ทเม้นท์', 'อาคารพานิชย์', 'อื่นๆ']]
-        }
+          isIn: [
+            [
+              "บ้าน",
+              "ที่ดิน",
+              "คอนโด",
+              "ตึกแถว",
+              "ทาวน์เฮ้าส์",
+              "อพาร์ทเม้นท์",
+              "อาคารพานิชย์",
+              "อื่นๆ",
+            ],
+          ],
+        },
       },
-      image_url1: {
+      image_1: {
         type: DataTypes.STRING,
       },
-      image_url2: {
+      image_2: {
         type: DataTypes.STRING,
       },
-      image_url3: {
+      image_3: {
         type: DataTypes.STRING,
       },
-      image_url4: {
+      image_4: {
         type: DataTypes.STRING,
       },
-      image_url5: {
+      image_5: {
+        type: DataTypes.STRING,
+      },
+      img1_cloudinary_id: {
+        type: DataTypes.STRING,
+      },
+      img2_cloudinary_id: {
+        type: DataTypes.STRING,
+      },
+      img3_cloudinary_id: {
+        type: DataTypes.STRING,
+      },
+      img4_cloudinary_id: {
+        type: DataTypes.STRING,
+      },
+      img5_cloudinary_id: {
         type: DataTypes.STRING,
       },
     },
     {
       tableName: "real estates",
-      timestamps: false,
+      timestamps: true,
     }
   );
 

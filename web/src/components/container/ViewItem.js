@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Col, Row, Form, Button, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import classes from "./ViewItem.module.css";
 import EditItemForm from "../form/EditItemForm";
-import localStorageService from "../../services/LocalStorageService";
 import Carousel from "./Carousel";
+import { AuthContext } from '../../contexts/AuthContext';
+import Image1Form from "../form/Image1Form";
 
 //a container for displaying Real Estate item page
 export default function ViewItemContainer(props) {
   const navigate = useNavigate();
-  const string = localStorageService.getUser();
-  const localUser = JSON.parse(string);
+  const { user } = useContext(AuthContext);
 
   //AntD's modal edit button
   const [visible, setVisible] = React.useState(false);
@@ -56,8 +56,8 @@ export default function ViewItemContainer(props) {
     });
   }
 
-  if (props.user_id === localUser.user_id) {
-      //Show edit and delete button
+  if (props.user_id === user.id) {
+      //Show edit, delete, image button
   return (
     <div>
       <Row>
@@ -87,19 +87,22 @@ export default function ViewItemContainer(props) {
             <Button type="danger" onClick={showDeleteConfirm}>
               ลบประกาศ
             </Button>
+            &nbsp;
+            <Image1Form/>
+
         </Col>
       </Row>
       <Row>
-        <Col span={10} offset={2}>
+        <Col span={11} offset={1}>
           <Carousel
-          image_url1 = {props.image_url1}
-          image_url2 = {props.image_url2}
-          image_url3 = {props.image_url3}
-          image_url4 = {props.image_url4}
-          image_url5 = {props.image_url5}
+          image_1 = {props.image_1}
+          image_2 = {props.image_2}
+          image_3 = {props.image_3}
+          image_4 = {props.image_4}
+          image_5 = {props.image_5}
           />
         </Col>
-        <Col span={12}>
+        <Col span={11}>
           <div className={classes.ProductDescription}>
             <h1>รายละเอียดสินค้า</h1>
             <hr className={classes.style}/>
@@ -145,13 +148,13 @@ else {
         </Col>
       </Row>
       <Row>
-        <Col span={10} offset={2}>
+        <Col span={11} offset={1}>
           <Carousel
-          image_url1 = {props.image_url1}
-          image_url2 = {props.image_url2}
-          image_url3 = {props.image_url3}
-          image_url4 = {props.image_url4}
-          image_url5 = {props.image_url5}
+          image_1 = {props.image_1}
+          image_2 = {props.image_2}
+          image_3 = {props.image_3}
+          image_4 = {props.image_4}
+          image_5 = {props.image_5}
           />
         </Col>
         <Col span={12}>

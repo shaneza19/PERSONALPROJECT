@@ -34,7 +34,7 @@ export default function ViewUserContainer(props) {
         <div>
           <img
             className={classes.ProfileImage}
-            src={props.profile_pic_url}
+            src={props.profile_img}
             alt="profile pic"
           />
         </div>

@@ -1,16 +1,15 @@
-import { Col, Row } from "antd";
 import ViewItemContainer from "../container/ViewItem";
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import localStorageService from "../../services/LocalStorageService";
 import { notification } from "antd";
+import itemImg from '../../assets/images/itemImg.jpg';
+import { AuthContext } from '../../contexts/AuthContext';
 
 //a page for displaying Real Estate items
 export default function ViewItem() {
-  const string = localStorageService.getUser();
-  const localUser = JSON.parse(string);
 
+  const { user } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -37,7 +36,7 @@ export default function ViewItem() {
   //DELETE handler
   //checks if the logged-in user_id match with realEstate's user_id
   const deleteItem = async (id) => {
-    if (items.user_id === localUser.user_id) {
+    if (items.user_id === user.id) {
       return await axios.delete(
         `/real_estate/${id}`,
         navigate(-1),
@@ -61,12 +60,11 @@ export default function ViewItem() {
   //checks if the logged-in user_id match with realEstate's user_id
   //edit function are from ViewItem.js (container) and EditItemForm.js (form)
   const editItem = async () => {
-    if (items.user_id === localUser.user_id) {
+    if (items.user_id === user.id) {
       return notification.success({
         message: `แก้ไขประกาศสำเร็จแล้ว`,
         placement: `bottomRight`,
       })
-      ,setTimeout(() => {  window.location.reload(false); }, 1500)
     } else {
       return notification.error({
         message: `คุณไม่ใช่เจ้าของประกาศ`,
@@ -81,10 +79,6 @@ export default function ViewItem() {
     return <div>Loading...</div>;
   } else {
     return (
-      <div>
-        <Row>
-          <Col span={24}>
-            <div>
               <ViewItemContainer
                 type={items.type}
                 land_size={items.land_size}
@@ -96,20 +90,16 @@ export default function ViewItem() {
                 address={items.address}
                 price={items.price}
                 category={items.category}
-                image_url1={items.image_url1}
-                image_url2={items.image_url2}
-                image_url3={items.image_url3}
-                image_url4={items.image_url4}
-                image_url5={items.image_url5}
+                image_1={items.image_1 || itemImg}
+                image_2={items.image_2 || itemImg}
+                image_3={items.image_3 || itemImg}
+                image_4={items.image_4 || itemImg}
+                image_5={items.image_5 || itemImg}
                 user_id={items.user_id}
                 real_estateID={items.id}
                 deleteHandler={deleteItem}
                 editHandler={editItem}
               />
-            </div>
-          </Col>
-        </Row>
-      </div>
     );
   }
 }

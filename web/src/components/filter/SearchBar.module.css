@@ -1,6 +1,13 @@
 .barstyling {
     width: 20rem;
-    background: #F2F1F9;
+    background: #00000024;
     border: groove;
+    border-color: rgba(0, 0, 0, 0.642);
     padding: 0.5rem;
+    display: block;
+    margin: auto;
+}
+
+input {
+    color: white;
 }

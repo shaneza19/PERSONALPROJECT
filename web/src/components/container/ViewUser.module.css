@@ -1,5 +1,5 @@
 .button {
-  background-color: #ffdd6d;
+  background-color: #fffccc;
   color: black;
   font-size: 1rem;
   padding: 5px 40px;
@@ -11,7 +11,7 @@
 }
 
 .button:hover {
-  background-color: #f8973e;
+  background-color: #fffccc80;
 }
 
 ul.noBullets {
@@ -35,7 +35,7 @@ img.ProfileImage {
 
 h1 {
   color: #000000;
-  font-family: "Great Vibes", cursive;
+  font-family: "Libre Baskerville", serif;
   font-size: 1.5rem; 
   line-height: 72px;
   font-weight: normal;

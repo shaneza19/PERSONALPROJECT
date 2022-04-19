@@ -1,15 +1,17 @@
 .button {
-  background-color: #ffdd6d;
+  background-color: #fffccc;
   color: black;
   font-size: 1rem;
   padding: 5px 40px;
   border-radius: 5px;
   margin: 10px 1px;
   cursor: pointer;
+  width: 280px;
+  height: 40px;
 }
 
 .button:hover {
-  background-color: #F8973E;
+  background-color: #fffccc80;
 }
 
 h1 {
@@ -29,7 +31,7 @@ h1 {
   height: 1100px;
   /*border-style: dashed; /* test div box location*/
   margin: auto; 
-  background-color: #fffccc;
+  background-color: #fff;
   padding-top: 30px;
   padding-left: 10px;
   padding-right: 10px;
@@ -63,5 +65,5 @@ hr.style:after {
   top: -0.7em;
   font-size: 1.5em;
   padding: 0 0.25em;
-  background: #fffccc;
+  background: #fff;
 }

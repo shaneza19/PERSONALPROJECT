@@ -1,89 +1,115 @@
-const db = require("../models");
-const { sequelize } = require("../models");
+const util = require("util");
+const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+const { RealEstate } = require("../models");
+
+const uploadPromise = util.promisify(cloudinary.uploader.upload);
 
 //******GET METHOD******
-const getAllRealEstates = async (req, res) => {
-  const allRealEstates = await db.RealEstate.findAll();
-  res.status(200).send(allRealEstates);
+exports.getAllRealEstates = async (req, res, next) => {
+  try {
+    const allRealEstates = await RealEstate.findAll();
+    res.status(200).send(allRealEstates);
+  } catch (err) {
+    next(err);
+  }
 };
 
-const getRealEstateById = async (req, res) => {
-  const targetId = req.params.id;
-  const targetRealEstate = await db.RealEstate.findOne({
-    where: {
-      id: targetId,
-    },
-  });
-  res.status(200).send(targetRealEstate);
-};
-
-//******POST METHOD******
-const createRealEstate = async (req, res) => {
-  const { type,product_title, product_description, province, status, address, price, category, user_id, image_url1, image_url2, image_url3, image_url4, image_url5 } = req.body;
-  const newRealEstate = await db.RealEstate.create({
-    type: type,
-    product_title: product_title,
-    product_description: product_description,
-    province: province,
-    status: status,
-    address: address,
-    price: price,
-    category: category,
-    image_url1: image_url1,
-    image_url2: image_url2,
-    image_url3: image_url3,
-    image_url4: image_url4,
-    image_url5: image_url5,
-    user_id: user_id,
-  });
-  res.status(200).send(newRealEstate);
-};
-
-//******PUT METHOD******
-const updateRealEstate = async (req, res) => {
-  const targetId = req.params.id;
-  const { type,product_title, product_description, province, status, address, price, category, user_id, image_url1, image_url2, image_url3, image_url4, image_url5  } = req.body;
-  await db.RealEstate.update(
-    {
-      type: type,
-      product_title: product_title,
-      product_description: product_description,
-      province: province,
-      status: status,
-      address: address,
-      price: price,
-      category: category,
-      image_url1: image_url1,
-      image_url2: image_url2,
-      image_url3: image_url3,
-      image_url4: image_url4,
-      image_url5: image_url5,
-      user_id: user_id,
-    },
-    {
+exports.getRealEstateById = async (req, res, next) => {
+  try {
+    const targetId = req.params.id;
+    const targetRealEstate = await RealEstate.findOne({
       where: {
         id: targetId,
       },
+    });
+    res.status(200).send(targetRealEstate);
+  } catch (err) {
+    next(err);
+  }
+};
+
+//******POST METHOD******
+exports.createRealEstate = async (req, res, next) => {
+  try {
+    let result = {};
+
+    if (req.file) {
+      result = await uploadPromise(req.file.path);
+      fs.unlinkSync(req.file.path);
     }
-  );
-  res.status(200).send({ message: `RealEstate ID: ${targetId} has been updated` });
+
+    const newRealEstate = await RealEstate.create({
+      type: req.body.type,
+      product_title: req.body.product_title,
+      product_description: req.body.product_description,
+      province: req.body.province,
+      status: req.body.status,
+      address: req.body.address,
+      price: req.body.price,
+      category: req.body.category,
+      image_1: result.secure_url,
+      img1_cloudinary_id: result.public_id,
+      user_id: req.user.id,
+    });
+
+    res.status(201).send(newRealEstate);
+  } catch (err) {
+    next(err);
+  }
+};
+
+//******PUT METHOD******
+exports.updateRealEstate = async (req, res, next) => {
+  try {
+    const targetId = req.params.id;
+    const {
+      type,
+      product_title,
+      product_description,
+      province,
+      status,
+      address,
+      price,
+      category,
+    } = req.body;
+    await RealEstate.update(
+      {
+        type: type,
+        product_title: product_title,
+        product_description: product_description,
+        province: province,
+        status: status,
+        address: address,
+        price: price,
+        category: category,
+        user_id: req.user.id,
+      },
+      {
+        where: {
+          id: targetId,
+        },
+      }
+    );
+    res
+      .status(200)
+      .send({ message: `RealEstate ID: ${targetId} has been updated` });
+  } catch (err) {
+    next(err);
+  }
 };
 
 //******DELETE METHOD******
-const deleteRealEstate = async (req, res) => {
-  const targetId = req.params.id;
-  await db.RealEstate.destroy({
-    where: {
-      id: targetId,
-    },
-  });
-  res.status(204).send();
-};
-
-module.exports = {
-  getAllRealEstates,
-  getRealEstateById,
-  createRealEstate,
-  updateRealEstate,
-  deleteRealEstate,
+exports.deleteRealEstate = async (req, res, next) => {
+  try {
+    const targetId = req.params.id;
+    await RealEstate.destroy({
+      where: {
+        id: targetId,
+      },
+    });
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
 };

@@ -9,27 +9,48 @@ import ProvinceFilterButton from "../filter/ProvinceButton";
 import PriceFilterSlider from "../filter/PriceSlider";
 import SearchBar from "../filter/SearchBar";
 import classes from "./FilterItem.module.css";
+import itemImg from "../../assets/images/itemImg.jpg";
+import axios from "../../config/axios";
+
+/* Sidebar */
+import { RiMenuLine } from "react-icons/ri";
 
 //a page for displaying real estate cards with filter
+
 export default function FilterItem() {
+/* Sidebar */
+const sidebarCollapsed = localStorage.getItem("sidebar-collapsed");
+const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+
+const handleToggler = () => {
+  if (isExpanded) {
+    setIsExpanded(false);
+    localStorage.setItem("sidebar-collapsed", true);
+    return;
+  }
+  setIsExpanded(true);
+  localStorage.removeItem("sidebar-collapsed");
+};
+/* Sidebar Ends */
+
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [originalItems, setOriginalItems] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:8000/real_estate/", { method: "GET" })
-      .then((res) => res.json())
-      .then(
-        (real_estate) => {
-          setIsLoaded(true);
-          setItems(real_estate);
-          console.log(real_estate);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+    axios
+      .get("/real_estate")
+      .then((res) => {
+        setIsLoaded(true);
+        setItems(res.data);
+        setOriginalItems(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        setIsLoaded(true);
+        setError(error);
+      });
   }, []);
 
   // Category Filter
@@ -62,12 +83,8 @@ export default function FilterItem() {
 
   //Reset Filter
   const showAllItems = () => {
-    fetch("http://localhost:8000/real_estate/", { method: "GET" })
-      .then((res) => res.json())
-      .then((newItem) => {
         setIsLoaded(true);
-        setItems(newItem);
-      });
+        setItems(originalItems);
   };
 
   //Price Filter
@@ -90,69 +107,84 @@ export default function FilterItem() {
     }
   };
 
-
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
     return (
-      <Row>
-        <Col span={8} offset={0} className={classes.container}>
-          <h1>ค้นหาอสังหาริมทรัพย์</h1>
-          <hr className={classes.style} />
-          <br />
-          <SearchBar
-            filter={filter}
-            //name = {name}
-          />
-          <br />
-          <ShowAllButton showAllItems={showAllItems} data={items} />
-          <h1>① หมวดหมู่</h1>
-          <CategoryFilterButton
-            filterByCategory={filterByCategory}
-            setItems={setItems}
-            menuCategoryItems={menuCategoryItems}
-          />
-          <h1>② ขาย/เช่า</h1>
-          <TypeFilterButton
-            filterByType={filterByType}
-            setItems={setItems}
-            menuTypeItems={menuTypeItems}
-          />
-          <h1>③ จังหวัด</h1>
-          <ProvinceFilterButton
-            filterByProvince={filterByProvince}
-            setItems={setItems}
-            menuProvinceItems={menuProvinceItems}
-          />
-          <h1>ราคา</h1>
-          <div className={classes.priceContainer}>
-          <PriceFilterSlider
-            items={items}
-            handleInput={handleInput}
-            price={price}
-          />
-          </div>
-        </Col>
-
-        <Col span={16} offset={0}>
-          <br />
-          <br />
-          <ul>
-            {items.map((item) => (
-              <Link to={`/view_item/${item.id}`}>
-                <RealEstateCard
-                  key={item.id}
-                  image_url1={item.image_url1}
-                  product_title={item.product_title}
-                  price={item.price}
+      <>
+        <Row>
+          <div
+            className={isExpanded ? classes.SideBar : classes.SideBarCollapsed}
+          >
+            <br />
+            <br />
+            <br />
+            <br />
+            <RiMenuLine
+              className={classes.SideBarIcon}
+              onClick={handleToggler}
+            />
+            <div className={classes.SideBarContent}>
+              <h1>ค้นหาอสังหาริมทรัพย์</h1>
+              <br />
+              <SearchBar
+                filter={filter}
+                //name = {name}
+              />
+              <br />
+              <ShowAllButton showAllItems={showAllItems} data={items} />
+              <h1>① หมวดหมู่</h1>
+              <CategoryFilterButton
+                filterByCategory={filterByCategory}
+                setItems={setItems}
+                menuCategoryItems={menuCategoryItems}
+              />
+              <h1>② ขาย/เช่า</h1>
+              <TypeFilterButton
+                filterByType={filterByType}
+                setItems={setItems}
+                menuTypeItems={menuTypeItems}
+              />
+              <h1>③ จังหวัด</h1>
+              <ProvinceFilterButton
+                filterByProvince={filterByProvince}
+                setItems={setItems}
+                menuProvinceItems={menuProvinceItems}
+              />
+              <h1>ราคา</h1>
+              <div className={classes.priceContainer}>
+                <PriceFilterSlider
+                  items={items}
+                  handleInput={handleInput}
+                  price={price}
                 />
-              </Link>
-            ))}
-          </ul>
-        </Col>
-      </Row>
+              </div>
+            </div>
+          </div>
+
+          <Col span={24} offset={1}>
+            <br />
+            <br />
+            <ul>
+              {items.map((item) => (
+                <Link to={`/view_item/${item.id}`}>
+                  <RealEstateCard
+                    key={item.id}
+                    image_1={item.image_1 || itemImg}
+                    product_title={item.product_title}
+                    province={item.province}
+                    category={item.category}
+                    type={item.type}
+                    price={item.price}
+                  />
+                </Link>
+              ))}
+            </ul>
+          </Col>
+        </Row>
+      </>
     );
   }
 }

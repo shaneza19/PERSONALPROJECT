@@ -1,14 +1,14 @@
 import React from "react";
 import { Col, Row, Form, Input, Select, Radio, notification } from "antd";
-import axios from "../../config/Axios";
-import { useParams } from "react-router-dom";
+import axios from "../../config/axios";
+import { useNavigate, useParams } from "react-router-dom";
 import classes from "./EditItemForm.module.css";
-
 export default function EditItemForm() {
   //for AntD dropdown
   const { Option } = Select;
 
   let { id } = useParams();
+  const navigate = useNavigate()
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -21,12 +21,6 @@ export default function EditItemForm() {
       address: values.address,
       price: values.price,
       category: values.category,
-      image_url1: values.image_url1,
-      image_url2: values.image_url2,
-      image_url3: values.image_url3,
-      image_url4: values.image_url4,
-      image_url5: values.image_url5,
-      image_url6: values.image_url6,
     };
     axios
       .put(`/real_estate/${id}`, body)
@@ -35,6 +29,7 @@ export default function EditItemForm() {
           message: `คุณได้แก้ไขประกาศเรียบร้อยแล้ว`,
           placement: `bottomRight`,
         });
+        navigate('/filter_item');
       })
       .catch((res) => {
         notification.error({
@@ -233,43 +228,8 @@ export default function EditItemForm() {
                 maxLength={500}
               />
             </Form.Item>
-            <Form.Item
-              name="image_url1"
-              label="url รูปภาพที่1"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
-            <Form.Item
-              name="image_url2"
-              label="url รูปภาพที่2"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
-            <Form.Item
-              name="image_url3"
-              label="url รูปภาพที่3"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
-            <Form.Item
-              name="image_url4"
-              label="url รูปภาพที่4"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
-            <Form.Item
-              name="image_url5"
-              label="url รูปภาพที่5"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
             <br />
-            <Form.Item wrapperCol={{ span: 3, offset: 12 }}>
+            <Form.Item wrapperCol={{ span: 3, offset: 6 }}>
               <button className={classes.button} type="submit">
                 แก้ไขประกาศ (Submit)
               </button>

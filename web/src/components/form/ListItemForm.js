@@ -1,55 +1,77 @@
-import React from "react";
-import {Col, Row, Form, Input, Select, Radio, notification,} from "antd";
-import axios from "../../config/Axios";
+import{ React, useState } from "react";
+import { Col, Row, Form, Input, Select, Radio, notification } from "antd";
+import axios from "../../config/axios";
 import { useNavigate } from "react-router-dom";
-import localStorageService from "../../services/LocalStorageService";
 import classes from "./ListItemForm.module.css";
 
-export default function ListItemForm() {
-  const string = localStorageService.getUser();
-  const localUser = JSON.parse(string);
 
-  //for AntD dropdown 
+export default function ListItemForm() {
+  const [image_1, setimage1] = useState(null);
+  /*
+  const [image_2, setimage2] = useState(null);
+  const [image_3, setimage3] = useState(null);
+  const [image_4, setimage4] = useState(null);
+  const [image_5, setimage5] = useState(null);
+  */
+
+  const onChangeImage1 = (e) => {
+    setimage1(e.target.files[0])
+  }
+  /*
+  const onChangeImage2 = (e) => {
+    setimage2(e.target.files[0])
+  }
+  const onChangeImage3 = (e) => {
+    setimage3(e.target.files[0])
+  }
+  const onChangeImage4 = (e) => {
+    setimage4(e.target.files[0])
+  }
+  const onChangeImage5 = (e) => {
+    setimage5(e.target.files[0])
+  }
+  */
+
+  //for AntD dropdown
   const { Option } = Select;
 
   const navigate = useNavigate();
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-    const body = {
-      type: values.type,
-      product_title: values.product_title,
-      product_description: values.product_description,
-      province: values.province,
-      status: "ขายอยู่",
-      address: values.address,
-      price: values.price,
-      category: values.category,
-      image_url1: values.image_url1,
-      image_url2: values.image_url2,
-      image_url3: values.image_url3,
-      image_url4: values.image_url4,
-      image_url5: values.image_url5,
-      image_url6: values.image_url6,
-      //pass user id from local storage
-      user_id: localUser.user_id,
-    };
-    axios
-      .post("real_estate/create", body)
-      .then((res) => {
-        notification.success({
-          message: `คุณได้ลงประกาศเรียบร้อยแล้ว`,
-          placement: `bottomRight`,
-        });
-        navigate(`/filter_item`);
-      })
-      .catch((res) => {
-        notification.error({
-          message: `การลงประกาศล้มเหลว`,
-          placement: `bottomRight`,
-        });
-      });
-  };
+  const onFinish = async (values) => {
+    const formData = new FormData();
+    formData.append('image_1', image_1);
+    /*
+    formData.append('image_2', image_2);
+    formData.append('image_3', image_3);
+    formData.append('image_4', image_4);
+    formData.append('image_5', image_5);
+    */
+    formData.append('type', values.type);
+    formData.append('product_title', values.product_title);
+    formData.append('product_description', values.product_description);
+    formData.append('province', values.province);
+    formData.append('address', values.address);
+    formData.append('price', values.price);
+    formData.append('category', values.category);
+    //formData.append('status', 'ขายอยู่');
+
+    console.log(...formData)
+
+  await axios.post("/real_estate/create", formData)
+  .then((res) => {
+    notification.success({
+      message: `ลงประกาศเรียบร้อยแล้ว`,
+      placement: `bottomRight`,
+    });
+    navigate(`/filter_item`);
+  })
+  .catch((res) => {
+    notification.error({
+      message: `ลงประกาศล้มเหลว`,
+      placement: `bottomRight`,
+    });
+  });
+  }
 
   return (
     <div>
@@ -62,10 +84,8 @@ export default function ListItemForm() {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 10 }}
           >
-            <h1>
-              ลงประกาศอสังหาริมทรัพย์
-            </h1>
-            <hr className={classes.style}/>
+            <h1>ลงประกาศอสังหาริมทรัพย์</h1>
+            <hr className={classes.style} />
             <br />
             <Form.Item
               name="category"
@@ -225,48 +245,28 @@ export default function ListItemForm() {
               label="รายละเอียดสินค้า"
               rules={[{ required: true }]}
             >
-              <Input.TextArea placeholder="description" size="large" showCount maxLength={500} />
+              <Input.TextArea
+                placeholder="description"
+                size="large"
+                showCount
+                maxLength={500}
+              />
             </Form.Item>
             <Form.Item
-              name="image_url1"
-              label="url รูปภาพที่1"
+              name="image_1"
+              label="รูปภาพหน้าปก"
               rules={[{ required: true }]}
             >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
-            <Form.Item
-              name="image_url2"
-              label="url รูปภาพที่2"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
-            <Form.Item
-              name="image_url3"
-              label="url รูปภาพที่3"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
-            <Form.Item
-              name="image_url4"
-              label="url รูปภาพที่4"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
-            </Form.Item>
-            <Form.Item
-              name="image_url5"
-              label="url รูปภาพที่5"
-              rules={[{ required: false }]}
-            >
-              <Input type="url" placeholder="photo url" />
+              <Input 
+              type="file" 
+              placeholder="photo 1"
+              onChange={onChangeImage1} />
             </Form.Item>
             <br />
-            <Form.Item wrapperCol={{ span: 3, offset: 12 }}>
-            <button className={classes.button} type="submit">
-          ลงประกาศ (Submit)
-          </button>
+            <Form.Item wrapperCol={{ span: 3, offset: 8 }}>
+              <button className={classes.button} type="submit">
+                ลงประกาศ (Submit)
+              </button>
             </Form.Item>
           </Form>
         </Col>
@@ -275,8 +275,3 @@ export default function ListItemForm() {
   );
 }
 
-/*
-              <Button block type="primary" htmlType="submit">
-                ลงประกาศ
-              </Button>
-*/

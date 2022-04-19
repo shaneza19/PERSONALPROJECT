@@ -2,16 +2,16 @@ import { React, useState, useEffect } from "react";
 import { Row, Col } from "antd";
 import { Link } from "react-router-dom";
 import classes from "./ViewHistory.module.css";
-import localStorageService from "../../services/LocalStorageService";
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function History() {
+
+  const { user } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-
-  const string = localStorageService.getUser();
-  const localUser = JSON.parse(string);
-
+  
   useEffect(() => {
     fetch("http://localhost:8000/real_estate/", { method: "GET" })
       .then((res) => res.json())
@@ -39,14 +39,14 @@ export default function History() {
           <br /> <br />
         </Col>
         <Row>
-          <Col span={24} offset={11}>
+          <Col span={24} offset={6}>
             <div className={classes.History}>
               <br/>
                         <h1>รายการลงประกาศของฉัน</h1>
                         <hr className={classes.style} />
               {items
                 .filter((item) => {
-                  return item.user_id == localUser.user_id;
+                  return item.user_id == user.id;
                 })
                 .map((item) => {
                   return (
