@@ -201,6 +201,7 @@ const loadMoreItems = async () => {
             แสดงเพิ่มเติม
           </button>
         </Row>
+        <br/>
       </>
     );
   }
