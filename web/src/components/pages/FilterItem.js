@@ -18,40 +18,52 @@ import { RiMenuLine } from "react-icons/ri";
 //a page for displaying real estate cards with filter
 
 export default function FilterItem() {
-/* Sidebar */
-const sidebarCollapsed = localStorage.getItem("sidebar-collapsed");
-const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+  /* Sidebar */
+  const sidebarCollapsed = localStorage.getItem("sidebar-collapsed");
+  const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
 
-const handleToggler = () => {
-  if (isExpanded) {
-    setIsExpanded(false);
-    localStorage.setItem("sidebar-collapsed", true);
-    return;
-  }
-  setIsExpanded(true);
-  localStorage.removeItem("sidebar-collapsed");
-};
-/* Sidebar Ends */
+  const handleToggler = () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+      localStorage.setItem("sidebar-collapsed", true);
+      return;
+    }
+    setIsExpanded(true);
+    localStorage.removeItem("sidebar-collapsed");
+  };
+  /* Sidebar Ends */
 
   const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
-  const [originalItems, setOriginalItems] = useState([])
+  const [originalItems, setOriginalItems] = useState([]);
 
   useEffect(() => {
     axios
-      .get("/real_estate")
+      .get("/real_estate/new")
       .then((res) => {
-        setIsLoaded(true);
+        setLoading(true);
         setItems(res.data);
         setOriginalItems(res.data);
         console.log(res);
       })
       .catch((err) => {
-        setIsLoaded(true);
+        setLoading(true);
         setError(error);
       });
   }, []);
+
+const loadMoreItems = async () => {
+  axios.get("/real_estate/loadMore")
+  .then((res) => {
+    console.log(res.data);
+    let tempState = [...items,...res.data];
+    setItems(tempState);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+};
 
   // Category Filter
   const menuCategoryItems = [...new Set(items.map((Val) => Val.category))];
@@ -83,8 +95,8 @@ const handleToggler = () => {
 
   //Reset Filter
   const showAllItems = () => {
-        setIsLoaded(true);
-        setItems(originalItems);
+    setLoading(true);
+    setItems(originalItems);
   };
 
   //Price Filter
@@ -109,7 +121,7 @@ const handleToggler = () => {
 
   if (error) {
     return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
+  } else if (!loading) {
     return <div>Loading...</div>;
   } else {
     return (
@@ -183,6 +195,11 @@ const handleToggler = () => {
               ))}
             </ul>
           </Col>
+        </Row>
+        <Row>
+          <button className={classes.loadMore} onClick={loadMoreItems}>
+            แสดงเพิ่มเติม
+          </button>
         </Row>
       </>
     );

@@ -6,6 +6,38 @@ const { RealEstate } = require("../models");
 const uploadPromise = util.promisify(cloudinary.uploader.upload);
 
 //******GET METHOD******
+
+//get new post(20)
+exports.getNewRealEstates = async (req, res, next) => {
+  try {
+    const newRealEstates = await RealEstate.findAll({
+      order: [
+        ['id', 'DESC']
+      ],
+      limit: 20,
+    })
+    res.status(200).send(newRealEstates);
+  } catch (err) {
+    next(err);
+  }
+};
+
+//load more  (20)
+exports.loadMoreRealEstates = async (req, res, next) => {
+  try {
+    const moreRealEstates = await RealEstate.findAll({
+      order: [
+        ['id', 'DESC']
+      ],
+      limit: 20,
+      offset: 20,
+    })
+    res.status(200).send(moreRealEstates);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getAllRealEstates = async (req, res, next) => {
   try {
     const allRealEstates = await RealEstate.findAll();

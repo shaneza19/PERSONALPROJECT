@@ -7,7 +7,7 @@ export default function PriceFilterSlider({ items, handleInput, price }) {
     <>
       <div>
         <div className={classes.slidecontainer}>
-        <input className={classes.slider} type="range" onInput={handleInput} min="0" max="1000000" />
+        <input className={classes.slider} type="range" onInput={handleInput} min="0" max="10000000" />
         </div>
         <h4>{price} บาทขึ้นไป</h4>
         <div>

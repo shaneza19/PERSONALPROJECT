@@ -8,8 +8,8 @@ const upload = require('../middlewares/upload');
 
 //GET
 router.get('/', real_estateControllers.getAllRealEstates);
-
-
+router.get('/new', real_estateControllers.getNewRealEstates);
+router.get('/loadMore', real_estateControllers.loadMoreRealEstates);
 router.get('/:id', real_estateControllers.getRealEstateById);
 
 //POST
