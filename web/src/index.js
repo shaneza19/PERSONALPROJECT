@@ -1,20 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "antd/dist/antd.css";
-import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import ErrorContextProvider from './contexts/ErrorContext';
-import AuthContextProvider from './contexts/AuthContext';
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "antd/dist/antd.css";
+import "./index.css";
+
+import ErrorContextProvider from "./contexts/ErrorContext";
+import AuthContextProvider from "./contexts/AuthContext";
+import SideBarContextProvider from "./contexts/SideBarContext";
 
 ReactDOM.render(
   <BrowserRouter>
-      <ErrorContextProvider>
-        <AuthContextProvider>
+    <ErrorContextProvider>
+      <AuthContextProvider>
+        <SideBarContextProvider>
           <App />
-        </AuthContextProvider>
-      </ErrorContextProvider>
+        </SideBarContextProvider>
+      </AuthContextProvider>
+    </ErrorContextProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );

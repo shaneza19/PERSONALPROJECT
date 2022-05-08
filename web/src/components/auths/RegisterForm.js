@@ -1,10 +1,17 @@
-import React from "react";
-import { Form, Input, Row, Col, notification } from "antd";
-import axios from "../../config/axios";
+import React , { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import axios from "../../config/axios";
+
+import { ErrorContext } from "../../contexts/ErrorContext";
+
+import { Form, Input, Row, Col, notification } from "antd";
+
 import classes from "./RegisterForm.module.css";
 
 function RegisterForm() {
+
+  const { setError } = useContext(ErrorContext);
 
   const navigate = useNavigate()
 
@@ -27,11 +34,10 @@ function RegisterForm() {
         });
         navigate('/login');
       })
-      .catch((res) => {
-        notification.error({
-          message: `การสมัครสมาชิกล้มเหลว ลองเปลี่ยนชื่อผู้ใช้งาน`,
-          placement: `bottomRight`,
-        });
+      .catch((err) => {        
+        setError("");
+        setError(err.response.data.message);
+        console.log(err);
       });
   };
 

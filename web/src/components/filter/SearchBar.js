@@ -1,13 +1,13 @@
 import React from 'react';
 import classes from "./SearchBar.module.css";
 
-function SearchBar({filter, name, }) {
+function SearchBar({filter, searchInput, myInput}) {
 
   return (
     <div className="container">
       <input
-        type="search"
-        value={name}
+        type="text"
+        value={searchInput}
         onChange={filter}
         className={classes.barstyling}
         placeholder="ค้นหาหัวข้อ"

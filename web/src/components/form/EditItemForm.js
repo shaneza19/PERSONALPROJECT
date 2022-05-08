@@ -1,9 +1,19 @@
-import React from "react";
-import { Col, Row, Form, Input, Select, Radio, notification } from "antd";
-import axios from "../../config/axios";
+import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+import axios from "../../config/axios";
+
+import { ErrorContext } from "../../contexts/ErrorContext";
+
+import { Col, Row, Form, Input, Select, Radio, notification } from "antd";
+
 import classes from "./EditItemForm.module.css";
+
+//edit Real Estate on View Item page's edit button
 export default function EditItemForm() {
+
+  const { setError } = useContext(ErrorContext);
+
   //for AntD dropdown
   const { Option } = Select;
 
@@ -31,11 +41,10 @@ export default function EditItemForm() {
         });
         navigate('/filter_item');
       })
-      .catch((res) => {
-        notification.error({
-          message: `การแก้ไขประกาศล้มเหลว`,
-          placement: `bottomRight`,
-        });
+      .catch((err) => {
+        setError("");
+        setError(err.response.data.message);
+        console.log(err);
       });
   };
 

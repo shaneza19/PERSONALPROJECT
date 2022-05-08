@@ -1,19 +1,26 @@
 import { React, useContext, useRef, useState } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
 import axios from "../../config/axios";
+
+import { AuthContext } from "../../contexts/AuthContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
+
 import profileImg from "../../assets/images/profileImg.png";
+
 import { Modal } from "bootstrap";
 import Spinner from "../utils/Spinner";
 
+import classes from "./ProfilePicForm.module.css";
+
 export default function ProfilePicForm() {
+  const { setError } = useContext(ErrorContext);
+  const { user, updateUser } = useContext(AuthContext);
+
   const [imgInput, setImgInput] = useState(null);
   const [modal, setModal] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const modalEl = useRef();
   const inputEl = useRef();
-
-  const { user, updateUser } = useContext(AuthContext);
 
   const handleClickProfile = () => {
     const modalObj = new Modal(modalEl.current);
@@ -31,6 +38,8 @@ export default function ProfilePicForm() {
       updateUser({ profile_img: res.data.profile_img });
       modal.hide();
     } catch (err) {
+      setError("");
+      setError(err.response.data.message);
       console.log(err);
     } finally {
       setLoading(false);
@@ -40,9 +49,12 @@ export default function ProfilePicForm() {
   return (
     <>
       {loading && <Spinner />}
-      <div className="navbar-brand" role="button" onClick={handleClickProfile}>
-        <p>แก้ไข</p>
-      </div>
+      <button
+        className={classes.editProfilePicButton}
+        onClick={handleClickProfile}
+      >
+        แก้ไข
+      </button>
       <div className="modal" ref={modalEl}>
         <div className="modal-dialog">
           <div className="modal-content">

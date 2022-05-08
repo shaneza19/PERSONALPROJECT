@@ -1,39 +1,40 @@
-import React, { useContext, useState } from "react";
-import { Col, Row, Form, Button, Modal } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import classes from "./ViewItem.module.css";
-import EditItemForm from "../form/EditItemForm";
+
+import { Col, Row, Button, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
 import Carousel from "./Carousel";
-import { AuthContext } from '../../contexts/AuthContext';
+
+import EditItemForm from "../form/EditItemForm";
 import Image1Form from "../form/Image1Form";
 
-//a container for displaying Real Estate item page
+import { AuthContext } from "../../contexts/AuthContext";
+
+import classes from "./ViewItem.module.css";
+
+//a container for individual Real Estate item page
 export default function ViewItemContainer(props) {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
+  const [showButton, showEditButton] = useState(false);
+  //Show edit, delete, image button
+  useEffect(() => {
+    if (props.user_id === user.id) {
+      showEditButton(true);
+    }
+  }, [props.user_id]);
+
   //AntD's modal edit button
   const [visible, setVisible] = React.useState(false);
-  const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [modalText, setModalText] = React.useState(<EditItemForm />);
+  const [modalContent] = React.useState(<EditItemForm />);
 
   const showModal = () => {
     setVisible(true);
   };
 
-  const handleOk = () => {
-    props.editHandler(props.real_estateID);
-    setModalText("กำลังดำเนินการแก้ไข");
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
-
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setVisible(false);
   };
 
@@ -56,136 +57,101 @@ export default function ViewItemContainer(props) {
     });
   }
 
-  if (props.user_id === user.id) {
-      //Show edit, delete, image button
   return (
     <div>
-      <Row>
-        <Col span={12}>
-          <br />
-          <p>{props.product_title}</p>
-        </Col>
-        <Col span={12}>
-          <br />
-            <button className={classes.status}>
-              สถานะ: {props.status}
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      {showButton ? (
+        <Row>
+          <Col span={4} offset={20}>
+            <br />
             <Button type="primary" onClick={showModal}>
               แก้ไข
             </Button>
             <Modal
               title=""
               visible={visible}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
+              confirmLoading={null}
+              onOk={null}
               onCancel={handleCancel}
+              footer={null}
             >
-              <p>{modalText}</p>
+              {modalContent}
             </Modal>
             &nbsp;
             <Button type="danger" onClick={showDeleteConfirm}>
               ลบประกาศ
             </Button>
             &nbsp;
-            <Image1Form/>
+            <Image1Form />
+          </Col>
+        </Row>
+      ) : null}
 
-        </Col>
-      </Row>
       <Row>
-        <Col span={11} offset={1}>
+        <Col span={24} offset={0}>
           <Carousel
-          image_1 = {props.image_1}
-          image_2 = {props.image_2}
-          image_3 = {props.image_3}
-          image_4 = {props.image_4}
-          image_5 = {props.image_5}
+            image_1={props.image_1}
+            image_2={props.image_2}
+            image_3={props.image_3}
+            image_4={props.image_4}
+            image_5={props.image_5}
           />
+          <p className={classes.price}>
+            {props.price?.toLocaleString(undefined, {
+              maximumFractionDigits: 2,
+            }) || "-"}
+            &nbsp;บาท
+          </p>
+          <p className={classes.address}>{props.address || "-"}</p>
+          <p className={classes.productTitle}>{props.product_title || "-"}</p>
+          <p className={classes.descriptionHeader}>
+            รายละเอียด อสังหาริมทรัพย์
+          </p>
         </Col>
-        <Col span={11}>
-          <div className={classes.ProductDescription}>
-            <h1>รายละเอียดสินค้า</h1>
-            <hr className={classes.style}/>
-            <p>{props.product_description}</p>
-          </div>
-          <br />
-          <div className={classes.Address}>
-            <p>ที่ตั้ง: {props.address}</p>
-          </div>
-          <br /> <br />
+        <Col span={7} offset={5}>
+          <span className={classes.description}>
+            ประเภท&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+          <span className={classes.bold}>{props.category || "-"}</span>
+          <hr className={classes.style} />
+          <span className={classes.description}>วัตถุประสงค์</span>
+          <span className={classes.bold}>สำหรับ {props.type || "-"}</span>
+          <hr className={classes.style} />
+          <span className={classes.description}>
+            จังหวัด&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+          <span className={classes.bold}>{props.province || "-"}</span>
+        </Col>
+        <Col span={12} offset={0}>
+          <span className={classes.description}>สถานะความคืบหน้า</span>
+          <span className={classes.bold}>{props.status || "-"}</span>
+          <hr className={classes.style} />
+          <span className={classes.description}>ลงขายเมื่อ</span>
+          <span className={classes.bold}>{props.createdAt || "-"}</span>
+          <hr className={classes.style} />
+          <span className={classes.description}>อัพเดทเมื่อ</span>
+          <span className={classes.bold}>{props.updatedAt || "-"}</span>
+        </Col>
+        <Col span={24}>
+          <textarea
+            className={classes.textArea}
+            value={props.product_description || "-"}
+            spellcheck="false"
+            autocorrect="off"
+            autocapitalize="off"
+          />
           <div className={classes.SellerInfo}>
-            <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
-              <Link to={`/view_user/${props.user_id}`}>
-                <button className={classes.button}>ติดต่อผู้ขาย</button>
-              </Link>
-              <button
-                className={classes.backButton}
-                onClick={() => navigate(-1)}
-              >
-                กลับไปหน้าเดิม
+            <Link to={`/view_user/${props.user_id}`}>
+              <button className={classes.contactSellerButton}>
+                ติดต่อผู้ขาย
               </button>
-            </Form.Item>
-          </div>
-        </Col>
-      </Row>
-    </div>
-  );
-}
-//Else don't show edit or delete button
-else {
-  return (
-    <div>
-      <Row>
-        <Col span={12}>
-          <br />
-          <h1>{props.product_title}</h1>
-        </Col>
-        <Col span={12}>
-          <br />
-            <button className={classes.status}>
-              สถานะ: {props.status}
-            </button>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={11} offset={1}>
-          <Carousel
-          image_1 = {props.image_1}
-          image_2 = {props.image_2}
-          image_3 = {props.image_3}
-          image_4 = {props.image_4}
-          image_5 = {props.image_5}
-          />
-        </Col>
-        <Col span={12}>
-          <div className={classes.ProductDescription}>
+            </Link>
             <br />
-            <h1>รายละเอียดสินค้า</h1>
-            <hr className={classes.style}/>
-            <p>{props.product_description}</p>
-          </div>
-          <br />
-          <div className={classes.Address}>
-            <p>ที่ตั้ง: {props.address}</p>
-          </div>
-          <br /> <br />
-          <div className={classes.SellerInfo}>
-            <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
-              <Link to={`/view_user/${props.user_id}`}>
-                <button className={classes.button}>ติดต่อผู้ขาย</button>
-              </Link>
-              <button
-                className={classes.backButton}
-                onClick={() => navigate(-1)}
-              >
-                กลับไปหน้าเดิม
-              </button>
-            </Form.Item>
+            <button className={classes.backButton} onClick={() => navigate(-1)}>
+              กลับไปหน้าเดิม
+            </button>
           </div>
         </Col>
       </Row>
     </div>
   );
 }
-}
-

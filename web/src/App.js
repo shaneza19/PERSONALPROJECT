@@ -15,7 +15,8 @@ function App() {
     }
   }, [error]);
 
-  //start-50 bottom-0   = start at middle bottom
+  /*toast container for displaying error context
+  start-50 bottom-0   = start at middle bottom*/
   return (
     <>
       <div className="toast-container position-absolute p-3 start-50 bottom-0 translate-middle-x">

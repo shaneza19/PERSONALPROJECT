@@ -1,12 +1,18 @@
-import { React, useRef, useState } from "react";
+import { React, useRef, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../config/axios";
+
+import { ErrorContext } from "../../contexts/ErrorContext";
+
 import itemImg from "../../assets/images/itemImg.jpg";
+
 import { Modal } from "bootstrap";
 import Spinner from "../utils/Spinner";
 import { Button } from "antd";
 
 export default function Image1Form() {
+
+  const { setError } = useContext(ErrorContext);
   
   let { id } = useParams();
   const navigate = useNavigate()
@@ -29,11 +35,12 @@ export default function Image1Form() {
       setLoading(true);
       const formData = new FormData();
       formData.append("image_1", imgInput);
-
       const res = await axios.patch(`/real_estate/${id}`, formData);
       modal.hide();
       navigate('/filter_item');
     } catch (err) {
+      setError("");
+      setError(err.response.data.message);
       console.log(err);
     } finally {
       setLoading(false);

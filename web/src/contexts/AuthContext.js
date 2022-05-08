@@ -1,35 +1,42 @@
-import { createContext, useEffect, useState } from 'react';
-import axios from '../config/axios';
-import { setToken, clearToken, getToken } from '../services/localStorage';
+import React, { createContext, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "../config/axios";
+
+import { setToken, clearToken, getToken } from "../services/localStorage";
+
+import { ErrorContext } from "../contexts/ErrorContext";
 
 const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
-  const [user, setUser] = useState(null);
-  
-  const navigate = useNavigate()
+  const { setError } = useContext(ErrorContext);
 
-  //getMe (userController backend)
+  const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
+
+  //getMe 'backend function'
   useEffect(() => {
     if (getToken()) {
       axios
-        .get('/user/me')
-        .then(res => setUser(res.data.user))
-        .catch(err => console.log(err));
+        .get("/user/me")
+        .then((res) => setUser(res.data.user))
+        .catch((err) => console.log(err));
     }
   }, []);
 
   const login = async (username, password) => {
     try {
-      const res = await axios.post('/user/login', {
+      setError("");
+      const res = await axios.post("/user/login", {
         username,
-        password
+        password,
       });
       setToken(res.data.token);
       setUser(res.data.user);
-      navigate('/profile');
+      navigate("/profile");
     } catch (err) {
+      setError(err.response.data.message);
       console.log(err);
     }
   };
@@ -40,10 +47,9 @@ function AuthContextProvider({ children }) {
     localStorage.removeItem("sidebar-collapsed");
   };
 
-  //...(prev clone orginal value), then replace with ...value (new value)
-  //updateUser for Header.js in layouts folder (to update picture when upload profile pic)
-  const updateUser = value => {
-    setUser(prev => ({ ...prev, ...value }));
+  //to update picture when upload profile pic
+  const updateUser = (value) => {
+    setUser((prev) => ({ ...prev, ...value }));
   };
 
   return (

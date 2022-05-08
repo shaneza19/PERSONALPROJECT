@@ -1,11 +1,17 @@
 import React, { useContext } from "react";
-import { Col, Row, Form, Input, notification } from "antd";
 import axios from "../../config/axios";
-import classes from "./EditItemForm.module.css";
-import { AuthContext } from '../../contexts/AuthContext';
 
-export default function EditItemForm() {
+import { Col, Row, Form, Input, notification } from "antd";
+
+import { AuthContext } from '../../contexts/AuthContext';
+import { ErrorContext } from "../../contexts/ErrorContext";
+
+import classes from "./EditProfileForm.module.css";
+
+//edit user account on Profile page's edit button
+export default function EditProfileForm() {
   const { user } = useContext(AuthContext);
+  const { setError } = useContext(ErrorContext);
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -24,12 +30,14 @@ export default function EditItemForm() {
           message: `คุณได้แก้ไขเรียบร้อยแล้ว`,
           placement: `bottomRight`,
         });
+        setTimeout(() => {
+          window.location.reload(false);
+        }, 2000);
       })
-      .catch((res) => {
-        notification.error({
-          message: `การแก้ไขล้มเหลว`,
-          placement: `bottomRight`,
-        });
+      .catch((err) => {
+        setError("");
+        setError(err.response.data.message);
+        console.log(err);
       });
   };
 
@@ -44,52 +52,13 @@ export default function EditItemForm() {
             wrapperCol={{ span: 14 }}
           >
             <h1>แก้ไขโปรไฟล์ของฉัน</h1>
-            <br />
-            <Form.Item
-              name="password"
-              label="รหัสผ่าน"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input your password!",
-                },
-              ]}
-              hasFeedback
-            >
-              <Input.Password placeholder="password" />
-            </Form.Item>
-
-            <Form.Item
-              name="confirm"
-              label="ยืนยันรหัสผ่าน"
-              hasFeedback={true}
-              dependencies={["password"]}
-              rules={[
-                {
-                  required: false,
-                  message: "Please confirm your password!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      "Confirm password ต้องตรงกับ Password"
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Input.Password placeholder="confirm password" />
-            </Form.Item>
-
+            <br /><br />
             <Form.Item
               name="first_name"
               label="ชื่อ"
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: "Please input your first name!",
                   whitespace: true,
                 },
@@ -104,7 +73,7 @@ export default function EditItemForm() {
               label="นามสกุล"
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: "Please input your last name!",
                   whitespace: true,
                 },
@@ -119,7 +88,7 @@ export default function EditItemForm() {
               label="เบอร์โทรศัพท์"
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: "Please input your telephone number!",
                   whitespace: true,
                 },
@@ -134,7 +103,7 @@ export default function EditItemForm() {
               label="อีเมล"
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: "Please input your email!",
                   whitespace: true,
                 },
@@ -163,7 +132,7 @@ export default function EditItemForm() {
               <Input placeholder="(optional)" />
             </Form.Item>
             <Form.Item wrapperCol={{ span: 8, offset: 5 }}>
-              <button className={classes.button} type="submit">
+              <button className={classes.submitButton} type="submit">
                 แก้ไข
               </button>
             </Form.Item>

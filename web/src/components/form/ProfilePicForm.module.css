@@ -1,0 +1,24 @@
+.editProfilePicButton {
+  border-radius: 10px;
+  border-style: none;
+  width: 180px;
+  height: 40px;
+  box-shadow: 2px 2px 5px #c7c3c3;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(75, 75, 75, 0.099) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  color: #1c4e91;
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0px 30px;
+}
+
+.editProfilePicButton:hover {
+  background-color: #e8e8e880;
+}

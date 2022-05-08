@@ -1,36 +1,42 @@
-import ViewItemContainer from "../container/ViewItem";
-import { React, useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import dayjs from "dayjs";
+
+import ViewItemContainer from "../container/ViewItem";
+
 import { notification } from "antd";
-import itemImg from '../../assets/images/itemImg.jpg';
-import { AuthContext } from '../../contexts/AuthContext';
+
+import itemImg from "../../assets/images/itemImg.jpg";
+
+import { AuthContext } from "../../contexts/AuthContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
 
 //a page for displaying Real Estate items
 export default function ViewItem() {
 
+  require('dayjs/locale/th');
+
+  const { error, setError } = useContext(ErrorContext);
   const { user } = useContext(AuthContext);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+
   const [items, setItems] = useState([]);
 
   const navigate = useNavigate();
   let { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/real_estate/${id}`, { method: "GET" })
-      .then((res) => res.json())
-      .then(
-        (real_estate) => {
-          setIsLoaded(true);
-          setItems(real_estate);
-          console.log(real_estate);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+    axios
+      .get(`/real_estate/${id}`)
+      .then((res) => {
+        setItems(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        setError(err);
+        console.log(err);
+      });
   }, []);
 
   //DELETE handler
@@ -64,7 +70,7 @@ export default function ViewItem() {
       return notification.success({
         message: `แก้ไขประกาศสำเร็จแล้ว`,
         placement: `bottomRight`,
-      })
+      });
     } else {
       return notification.error({
         message: `คุณไม่ใช่เจ้าของประกาศ`,
@@ -73,33 +79,39 @@ export default function ViewItem() {
     }
   };
 
+const relativeTime = require('dayjs/plugin/relativeTime')
+dayjs.extend(relativeTime)
+
+const timeCreate = dayjs(items.createdAt).locale('th').fromNow();
+const timeUpdate = dayjs(items.updatedAt).locale('th').fromNow();
+
   if (error) {
     return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
   } else {
     return (
-              <ViewItemContainer
-                type={items.type}
-                land_size={items.land_size}
-                product_title={items.product_title}
-                product_description={items.product_description}
-                living_area={items.living_area}
-                province={items.province}
-                status={items.status}
-                address={items.address}
-                price={items.price}
-                category={items.category}
-                image_1={items.image_1 || itemImg}
-                image_2={items.image_2 || itemImg}
-                image_3={items.image_3 || itemImg}
-                image_4={items.image_4 || itemImg}
-                image_5={items.image_5 || itemImg}
-                user_id={items.user_id}
-                real_estateID={items.id}
-                deleteHandler={deleteItem}
-                editHandler={editItem}
-              />
+      <ViewItemContainer
+        type={items.type}
+        land_size={items.land_size}
+        product_title={items.product_title}
+        product_description={items.product_description}
+        living_area={items.living_area}
+        province={items.province}
+        status={items.status}
+        address={items.address}
+        price={items.price}
+        category={items.category}
+        createdAt={timeCreate}
+        updatedAt={timeUpdate}
+        image_1={items.image_1 || itemImg}
+        image_2={items.image_2 || itemImg}
+        image_3={items.image_3 || itemImg}
+        image_4={items.image_4 || itemImg}
+        image_5={items.image_5 || itemImg}
+        user_id={items.user_id}
+        real_estateID={items.id}
+        deleteHandler={deleteItem}
+        editHandler={editItem}
+      />
     );
   }
 }

@@ -5,7 +5,7 @@ ul.noBullets {
   }
 
   div.History {
-    width: 1000px;
+    width: 1050px;
     height: 900px;
     /*border-style: dashed; /* test div box location*/
     margin: auto; 
@@ -14,7 +14,7 @@ ul.noBullets {
     padding-right: 10px;
     overflow: auto; 
     border-radius: 5px;
-    border: 5px groove orange;
+    border: none;
   }
 
   h1 {
@@ -56,3 +56,38 @@ ul.noBullets {
     background: #fff;
   }
 
+  .alignItems {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .alignContent {
+    display: flex;
+  }
+  
+  .alignTextItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .icon {
+    width: 1.6em;
+    height: 1.6em;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    color: rgb(222, 152, 76);
+  }
+
+  .History a:hover {
+    text-decoration: underline;
+    text-decoration-color:rgb(0, 0, 0);
+    text-decoration-style: solid;
+  }

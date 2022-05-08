@@ -18,8 +18,6 @@ exports.updateUser = async (req, res, next) => {
   try {
     const targetId = req.params.id;
     const {
-      username,
-      password,
       first_name,
       last_name,
       tel,
@@ -29,8 +27,6 @@ exports.updateUser = async (req, res, next) => {
     } = req.body;
     await User.update(
       {
-        username: username,
-        password: password,
         first_name: first_name,
         last_name: last_name,
         tel: tel,

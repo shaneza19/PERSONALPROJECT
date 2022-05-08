@@ -1,44 +1,54 @@
-div.ProductDescription {
-  width: 720px;
-  height: 400px;
-  /*border-style: dashed; /* test div box location*/
-  margin: auto; 
-  background-color: #fff;
-  padding-left: 10px;
-  padding-right: 10px;
-  overflow: auto; 
-  border-radius: 5px;
-  border: 5px groove orange;
-}
-
-div.Address {
-  width: 720px;
-  height: 80px;
-  /*border-style: dashed; /* test div box location*/
-  margin: auto; 
-  background-color: #fff;
-  overflow: auto;
-  border-radius: 5px;
-  border: 5px groove orange;
-}
-
 div.SellerInfo {
   width: 720px;
   height: 140px;
   /*border-style: dashed; /* test div box location*/
-  margin: auto; 
+  margin: auto;
 }
 
-.button {
-  background-color: #fffccc;
-  color: black;
-  font-size: 1rem;
-  padding: 5px 40px;
-  border-radius: 5px;
-  margin: 10px 1px;
+.contactSellerButton {
+  border-radius: 10px;
+  border-style: none;
+  width: 240px;
+  height: 40px;
+  box-shadow: 2px 2px 5px #c7c3c3;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(0deg, #ffdd6d80, rgb(255, 232, 215) 100%);
+  color: #1c4e91;
   cursor: pointer;
-  width: 20rem;
-  margin-top: 3rem;
+  user-select: none;
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 10px 40px;
+}
+
+.contactSellerButton:hover {
+  background-color: #ffdd6d80;
+}
+
+.backButton {
+  border-radius: 10px;
+  border-style: none;
+  width: 240px;
+  height: 40px;
+  box-shadow: 2px 2px 5px #c7c3c3;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(75, 75, 75, 0.099) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  color: #1c4e91;
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 10px 40px;
+}
+
+.backButton:hover {
+  background-color: #e8e8e880;
 }
 
 .status {
@@ -55,35 +65,6 @@ div.SellerInfo {
   margin-bottom: 0rem;
 }
 
-.button:hover, .backButton:hover {
-  background-color: #fffccc80;
-}
-
-.backButton {
-  background-color: #fffccc;
-  color: black;
-  font-size: 1rem;
-  padding: 5px 40px;
-  border-radius: 5px;
-  margin: 10px 1px;
-  cursor: pointer;
-  width: 20rem;
-  margin-top: 3rem;
-  margin: auto;
-}
-
-h1 {
-  color: #000000;
-  font-family: "Libre Baskerville", serif;
-  font-size: 1.5rem; 
-  /*line-height: 120px;*/
-  font-weight: normal;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  text-align: center;
-  text-shadow: 0 1px 1px #fff;
-}
-
 p {
   color: #000000;
   font-size: 1rem;
@@ -98,16 +79,84 @@ hr.style {
   overflow: visible; /* For IE */
   padding: 0;
   border: none;
-  border-top: medium double #333;
-  color: #333;
+  color: rgb(185, 185, 185);
   text-align: center;
+  width: 280px;
+  margin: 10px 0px;
 }
-hr.style:after {
-  content: "§";
-  display: inline-block;
-  position: relative;
-  top: -0.7em;
-  font-size: 1.5em;
-  padding: 0 0.25em;
-  background: #fff;
+
+.price {
+  font-size: 32px;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 23%;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.address {
+  font-size: 20px;
+  font-weight: 500;
+  text-align: left;
+  margin-left: 23%;
+  padding: 0;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.productTitle {
+  font-size: 23px;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 23%;
+  padding: 0;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.descriptionHeader {
+  font-size: 26px;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 23%;
+  padding: 0;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 18px;
+  font-weight: 400;
+  text-align: left;
+  padding: 0;
+  margin-top: 0px;
+  margin-bottom: 0;
+  margin-left: 32px;
+}
+
+.bold {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 3%;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.textArea {
+  width: 720px;
+  height: 400px;
+  font-size: 18px;
+  font-weight: 400;
+  border-style: none;
+  background-color: #f0f2f5;
+  margin-left: 23%;
+  margin-top: 40px;
+  overflow: auto;
+}
+
+.textArea:focus {
+  outline: 0;
 }

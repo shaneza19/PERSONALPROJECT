@@ -7,14 +7,14 @@ const uploadPromise = util.promisify(cloudinary.uploader.upload);
 
 //******GET METHOD******
 
-//get new post(20)
+//get new post(8)
 exports.getNewRealEstates = async (req, res, next) => {
   try {
     const newRealEstates = await RealEstate.findAll({
       order: [
         ['id', 'DESC']
       ],
-      limit: 20,
+      limit: 8,
     })
     res.status(200).send(newRealEstates);
   } catch (err) {
@@ -22,15 +22,20 @@ exports.getNewRealEstates = async (req, res, next) => {
   }
 };
 
-//load more  (20)
+//load more  (8)
 exports.loadMoreRealEstates = async (req, res, next) => {
+ // get page from query params or default to first page
+ const page = parseInt(req.query.page) || 1;
+ const limit = 8;
+ const offset = page * limit;
+
   try {
     const moreRealEstates = await RealEstate.findAll({
       order: [
         ['id', 'DESC']
       ],
-      limit: 20,
-      offset: 20,
+      limit: limit,
+      offset: offset,
     })
     res.status(200).send(moreRealEstates);
   } catch (err) {

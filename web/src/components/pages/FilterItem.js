@@ -1,26 +1,36 @@
-import { React, useState, useEffect } from "react";
-import RealEstateCard from "../container/RealEstateCard";
-import { Row, Col } from "antd";
+import { React, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import axios from "../../config/axios";
+
+import RealEstateCard from "../container/RealEstateCard";
+
+import { Row, Col } from "antd";
+
 import ShowAllButton from "../filter/ShowAllButton";
 import CategoryFilterButton from "../filter/CategoryButton";
 import TypeFilterButton from "../filter/TypeButton";
 import ProvinceFilterButton from "../filter/ProvinceButton";
-import PriceFilterSlider from "../filter/PriceSlider";
+import SearchList from "../filter/SearchList";
 import SearchBar from "../filter/SearchBar";
-import classes from "./FilterItem.module.css";
-import itemImg from "../../assets/images/itemImg.jpg";
-import axios from "../../config/axios";
 
-/* Sidebar */
+//default image for caroussel image
+import itemImg from "../../assets/images/itemImg.jpg";
+
+import { ErrorContext } from "../../contexts/ErrorContext";
+
+import { SideBarContext } from "../../contexts/SideBarContext";
 import { RiMenuLine } from "react-icons/ri";
 
-//a page for displaying real estate cards with filter
+import classes from "./FilterItem.module.css";
 
+//a page for displaying real estate cards with filter sidebar
 export default function FilterItem() {
-  /* Sidebar */
-  const sidebarCollapsed = localStorage.getItem("sidebar-collapsed");
-  const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+  const { error, setError } = useContext(ErrorContext);
+
+  const [pageNum, setPageNum] = useState(1);
+
+  /*    Sidebar    */
+  const { isExpanded, setIsExpanded } = useContext(SideBarContext);
 
   const handleToggler = () => {
     if (isExpanded) {
@@ -31,45 +41,47 @@ export default function FilterItem() {
     setIsExpanded(true);
     localStorage.removeItem("sidebar-collapsed");
   };
-  /* Sidebar Ends */
+  /*              */
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [originalItems, setOriginalItems] = useState([]);
 
   useEffect(() => {
     axios
-      .get("/real_estate/new")
+      .get(`/real_estate/new?page=${pageNum}`)
       .then((res) => {
-        setLoading(true);
         setItems(res.data);
         setOriginalItems(res.data);
         console.log(res);
       })
       .catch((err) => {
-        setLoading(true);
-        setError(error);
+        setError("");
+        setError(err.response.data.message);
+        console.log(err);
       });
   }, []);
 
-const loadMoreItems = async () => {
-  axios.get("/real_estate/loadMore")
-  .then((res) => {
-    console.log(res.data);
-    let tempState = [...items,...res.data];
-    setItems(tempState);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-};
+  // Load more button
+  const loadMoreItems = async () => {
+    axios
+      .get(`/real_estate/loadMore?page=${pageNum}`)
+      .then((res) => {
+        console.log(res.data);
+        let tempState = [...items, ...res.data];
+        setItems(tempState);
+        setPageNum((prev) => prev + 1);
+      })
+      .catch((err) => {
+        setError("");
+        setError(err.response.data.message);
+        console.log(err);
+      });
+  };
 
   // Category Filter
   const menuCategoryItems = [...new Set(items.map((Val) => Val.category))];
   const filterByCategory = (curcat) => {
     const newItem = items.filter((newVal) => {
-      //comparing category for displaying data
       return newVal.category === curcat;
     });
     setItems(newItem);
@@ -93,24 +105,16 @@ const loadMoreItems = async () => {
     setItems(newItem);
   };
 
-  //Reset Filter
-  const showAllItems = () => {
-    setLoading(true);
-    setItems(originalItems);
-  };
-
-  //Price Filter
-  const [price, setPrice] = useState(0);
-  const handleInput = (e) => {
-    setPrice(e.target.value);
-  };
-
   //Search Bar
+  const [searchInput, setSearchInput] = useState("");
   const filter = (e) => {
     const keyword = e.target.value;
     if (keyword !== "") {
+      setSearchInput(e.target.value);
       const results = items.filter((item) => {
-        return item.product_title.toLowerCase().includes(keyword.toLowerCase());
+        return item.product_title
+          .toLowerCase()
+          .includes(searchInput.toLowerCase());
         // Use the toLowerCase() method to make it case-insensitive
       });
       setItems(results);
@@ -119,10 +123,13 @@ const loadMoreItems = async () => {
     }
   };
 
+  //Reset Filter
+  const showAllItems = () => {
+    setItems(originalItems);
+  };
+
   if (error) {
     return <div>Error: {error.message}</div>;
-  } else if (!loading) {
-    return <div>Loading...</div>;
   } else {
     return (
       <>
@@ -165,14 +172,11 @@ const loadMoreItems = async () => {
                 setItems={setItems}
                 menuProvinceItems={menuProvinceItems}
               />
-              <h1>ราคา</h1>
-              <div className={classes.priceContainer}>
-                <PriceFilterSlider
-                  items={items}
-                  handleInput={handleInput}
-                  price={price}
-                />
+              <h1>อสังหาริมทรัพย์</h1>
+              <div className={classes.searchListContainer}>
+                <SearchList items={items} />
               </div>
+              <br />
             </div>
           </div>
 
@@ -201,7 +205,7 @@ const loadMoreItems = async () => {
             แสดงเพิ่มเติม
           </button>
         </Row>
-        <br/>
+        <br />
       </>
     );
   }

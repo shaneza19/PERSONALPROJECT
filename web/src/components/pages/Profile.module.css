@@ -1,73 +1,121 @@
 ul.noBullets {
-    list-style-type: none; 
-    padding: 0; 
-    margin: 0; 
-  }
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 
-  h1 {
-    color: #000000;
-    font-family: "Libre Baskerville", serif;
-    font-size: 1.5rem; 
-    line-height: 72px;
-    font-weight: normal;
-    margin-bottom: 0px;
-    margin-top: 0px;
-    text-align: center;
-    text-shadow: 0 1px 1px #fff;
-  }
-  
-  p {
-    color: #000000;
-    font-size: 1.2rem;
-    font-family: "Libre Baskerville", serif;
-    line-height: 25px;
-    text-align: center;
-    text-shadow: 0 1px 1px #fff;
-  }
+h1 {
+  color: #000000;
+  font-family: "Libre Baskerville", serif;
+  font-size: 1.5rem;
+  /*line-height: 120px;*/
+  font-weight: normal;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  text-align: center;
+  text-shadow: 0 1px 1px #fff;
+}
 
-  .container {
-    width: 1000px;
-    height: 700px;
-    /*border-style: dashed; /* test div box location*/
-    margin: auto; 
-    padding-top: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
-    overflow: auto; 
-    border-radius: 5px;
-    border: 5px groove orange;
-    background-color: #fff;
-  }
+p {
+  color: #000000;
+  font-size: 1.2rem;
+  font-family: "Libre Baskerville", serif;
+  line-height: 25px;
+  text-align: center;
+  text-shadow: 0 1px 1px #fff;
+}
 
-  hr.style {
-    overflow: visible; /* For IE */
-    padding: 0;
-    border: none;
-    border-top: medium double #333;
-    color: #333;
-    text-align: center;
-  }
-  hr.style:after {
-    content: "§";
-    display: inline-block;
-    position: relative;
-    top: -0.7em;
-    font-size: 1.5em;
-    padding: 0 0.25em;
-    background: #fff;
-  }
+.container {
+  width: 1000px;
+  height: 700px;
+  /*border-style: dashed; /* test div box location*/
+  margin: auto;
+  padding-top: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: auto;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+}
 
-  .button {
-    background-color: #fffccc;
-    color: black;
-    font-size: 1rem;
-    padding: 5px 40px;
-    border-radius: 5px;
-    margin: 10px 1px;
-    cursor: pointer;
-  }
+hr.style {
+  overflow: visible; /* For IE */
+  padding: 0;
+  border: none;
+  border-top: medium double #333;
+  color: #333;
+  text-align: center;
+}
+hr.style:after {
+  content: "§";
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1.5em;
+  padding: 0 0.25em;
+  background: #fff;
+}
 
-  .button:hover {
-    background-color: #fffccc80;
-  }
+.historyButton {
+  border-radius: 10px;
+  border-style: none;
+  width: 240px;
+  height: 40px;
+  box-shadow: 2px 2px 5px #c7c3c3;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    #ffdd6d80,
+    rgb(255, 232, 215) 100%
+  );
+  color: #1c4e91;
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 72px 0px;
+}
 
+.historyButton:hover {
+  background-color: #ffdd6d80;
+}
+
+.editProfileButton {
+  border-radius: 10px;
+  border-style: none;
+  width: 180px;
+  height: 40px;
+  box-shadow: 2px 2px 5px #c7c3c3;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(75, 75, 75, 0.099) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  color: #1c4e91;
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0px 30px;
+}
+
+.editProfileButton:hover {
+  background-color: #e8e8e880;
+}
+
+div.profileImage {
+  width: 260px;
+  height: 260px;
+  /*border-style: dashed; /* test div box location*/
+  margin: auto;
+}
+
+img.ProfileImage {
+  width: 250px;
+  height: 250px;
+  border-radius: 5px;
+}

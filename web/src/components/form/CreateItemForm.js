@@ -1,36 +1,22 @@
-import{ React, useState } from "react";
-import { Col, Row, Form, Input, Select, Radio, notification } from "antd";
-import axios from "../../config/axios";
+import{ React, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import classes from "./ListItemForm.module.css";
+import axios from "../../config/axios";
+
+import { ErrorContext } from "../../contexts/ErrorContext";
+
+import { Col, Row, Form, Input, Select, Radio, notification } from "antd";
+
+import classes from "./CreateItemForm.module.css";
 
 
-export default function ListItemForm() {
+export default function CreateItemForm() {
+  const { setError } = useContext(ErrorContext);
+
   const [image_1, setimage1] = useState(null);
-  /*
-  const [image_2, setimage2] = useState(null);
-  const [image_3, setimage3] = useState(null);
-  const [image_4, setimage4] = useState(null);
-  const [image_5, setimage5] = useState(null);
-  */
 
   const onChangeImage1 = (e) => {
     setimage1(e.target.files[0])
   }
-  /*
-  const onChangeImage2 = (e) => {
-    setimage2(e.target.files[0])
-  }
-  const onChangeImage3 = (e) => {
-    setimage3(e.target.files[0])
-  }
-  const onChangeImage4 = (e) => {
-    setimage4(e.target.files[0])
-  }
-  const onChangeImage5 = (e) => {
-    setimage5(e.target.files[0])
-  }
-  */
 
   //for AntD dropdown
   const { Option } = Select;
@@ -40,12 +26,6 @@ export default function ListItemForm() {
   const onFinish = async (values) => {
     const formData = new FormData();
     formData.append('image_1', image_1);
-    /*
-    formData.append('image_2', image_2);
-    formData.append('image_3', image_3);
-    formData.append('image_4', image_4);
-    formData.append('image_5', image_5);
-    */
     formData.append('type', values.type);
     formData.append('product_title', values.product_title);
     formData.append('product_description', values.product_description);
@@ -65,15 +45,15 @@ export default function ListItemForm() {
     });
     navigate(`/filter_item`);
   })
-  .catch((res) => {
-    notification.error({
-      message: `ลงประกาศล้มเหลว`,
-      placement: `bottomRight`,
-    });
+  .catch((err) => {
+    setError("");
+    setError(err.response.data.message);
+    console.log(err);
   });
   }
 
   return (
+    <>
     <div>
       <br /> <br />
       <Row className={classes.container}>
@@ -265,13 +245,15 @@ export default function ListItemForm() {
             <br />
             <Form.Item wrapperCol={{ span: 3, offset: 8 }}>
               <button className={classes.button} type="submit">
-                ลงประกาศ (Submit)
+                ลงประกาศ
               </button>
             </Form.Item>
           </Form>
         </Col>
       </Row>
     </div>
+    <br/>
+    </>
   );
 }
 

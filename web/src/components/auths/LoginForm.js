@@ -1,7 +1,9 @@
 import { React, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import classes from "./LoginForm.module.css";
+
 import { AuthContext } from "../../contexts/AuthContext";
+
+import classes from "./LoginForm.module.css";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -47,10 +49,10 @@ const LoginForm = () => {
             </button>
           </div>
         </form>
-        <hr/>
+        <hr />
         <div>
           <button
-            className={classes.button}
+            className={classes.registerButton}
             onClick={() => navigate("/register")}
           >
             สมัครสมาชิก

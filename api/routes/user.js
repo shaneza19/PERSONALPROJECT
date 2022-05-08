@@ -25,6 +25,4 @@ router.patch(
     cloudinaryController.updateProfileImg
   );
 
-
-
 module.exports = router;

@@ -8,7 +8,7 @@
   cursor: pointer;
   display: block;
   margin: auto;
-  border: none;
+  border-style: solid;
 }
 
 .button:hover {

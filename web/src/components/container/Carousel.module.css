@@ -1,4 +1,8 @@
 img.CarouselImage {
-    width: 650px;
-    height: 500px;
-  }
+  width: 800px;
+  height: 600px;
+}
+
+ul.alice-carousel__dots{
+  margin: 30px 3px 5px;
+}

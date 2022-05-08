@@ -6,7 +6,7 @@ function Spinner() {
     >
       <div
         className="spinner-border text-warning"
-        style={{ width: '3rem', height: '3rem' }}
+        style={{ width: "3rem", height: "3rem" }}
       ></div>
       <span className="text-warning ms-3">Please Wait</span>
     </div>
