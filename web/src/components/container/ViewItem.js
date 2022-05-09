@@ -88,6 +88,7 @@ export default function ViewItemContainer(props) {
 
       <Row>
         <Col span={24} offset={0}>
+          <br/>
           <Carousel
             image_1={props.image_1}
             image_2={props.image_2}

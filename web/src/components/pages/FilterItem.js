@@ -180,7 +180,7 @@ export default function FilterItem() {
             </div>
           </div>
 
-          <Col span={24} offset={1}>
+          <Col span={23} offset={1}>
             <br />
             <br />
             <ul>
